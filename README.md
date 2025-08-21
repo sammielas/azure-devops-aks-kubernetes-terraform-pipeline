@@ -7,7 +7,6 @@
 - Provision Dev AKS Cluster
 - Provision QA AKS Cluster
 
-
 ## Step-03: Review Terraform Manifests
 ### 01-main.tf
 - Comment Terraform Backend, because we are going to configure that in Azure DevOps
@@ -108,7 +107,7 @@ Example: https://github.com/stacksimplify/azure-devops-aks-kubernetes-terraform-
 - Go to -> Azure DevOps -> Select Organization -> aksdemo2 ->  Create New Project
 - Project Name: terraform-azure-aks
 - Project Descritpion: Provision Azure AKS Cluster using Azure DevOps & Terraform
-- Visibility: Private
+- Visibility: Private/public
 - Click on **Create**
 
 ## Step-07: Create Azure RM Service Connection for Terraform Commands
