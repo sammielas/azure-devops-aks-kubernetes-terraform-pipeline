@@ -21,7 +21,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 
   # Integrate Azure AD for RBAC
   azure_active_directory_role_based_access_control {
-    managed                = true
+    azure_rbac_enabled     = true
     admin_group_object_ids = [azuread_group.aks_administrators.object_id]
   }
 
