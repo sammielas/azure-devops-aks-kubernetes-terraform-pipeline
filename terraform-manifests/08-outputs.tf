@@ -1,49 +1,51 @@
-# Create Outputs
-# 1. Resource Group Location
-# 2. Resource Group Id
-# 3. Resource Group Name
+# outputs.tf - Enhanced with additional useful outputs
 
-# Resource Group Outputs
-output "location" {
-  value = azurerm_resource_group.aks_rg.location
+# AKS Cluster essentials
+output "aks_cluster_name" {
+  description = "Name of the AKS cluster"
+  value       = azurerm_kubernetes_cluster.aks_cluster.name
 }
 
-output "resource_group_id" {
-  value = azurerm_resource_group.aks_rg.id
+output "aks_cluster_id" {
+  description = "ID of the AKS cluster"
+  value       = azurerm_kubernetes_cluster.aks_cluster.id
 }
 
 output "resource_group_name" {
-  value = azurerm_resource_group.aks_rg.name
+  description = "Name of the resource group"
+  value       = azurerm_resource_group.aks_rg.name
 }
 
-# Azure AKS Versions Datasource
-output "versions" {
-  value = data.azurerm_kubernetes_service_versions.current.versions
+output "resource_group_location" {
+  description = "Location of the resource group"
+  value       = azurerm_resource_group.aks_rg.location
 }
 
-output "latest_version" {
-  value = data.azurerm_kubernetes_service_versions.current.latest_version
+# Kubernetes connection details
+output "kubernetes_version" {
+  description = "Kubernetes version used by the AKS cluster"
+  value       = azurerm_kubernetes_cluster.aks_cluster.kubernetes_version
 }
 
-# Azure AD Group Object Id
-output "azure_ad_group_id" {
-  value = azuread_group.aks_administrators.id
-}
-output "azure_ad_group_objectid" {
-  value = azuread_group.aks_administrators.object_id
+output "kube_config_raw" {
+  description = "Raw kubeconfig for the AKS cluster"
+  value       = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
+  sensitive   = true
 }
 
-
-# Azure AKS Outputs
-
-output "aks_cluster_id" {
-  value = azurerm_kubernetes_cluster.aks_cluster.id
+# Monitoring and security
+output "log_analytics_workspace_id" {
+  description = "ID of the Log Analytics workspace"
+  value       = azurerm_log_analytics_workspace.insights.id
 }
 
-output "aks_cluster_name" {
-  value = azurerm_kubernetes_cluster.aks_cluster.name
+output "aks_admin_group_id" {
+  description = "Object ID of the AKS administrators group"
+  value       = azuread_group.aks_administrators.object_id
 }
 
-output "aks_cluster_kubernetes_version" {
-  value = azurerm_kubernetes_cluster.aks_cluster.kubernetes_version
+# Connection commands
+output "cluster_connect_command" {
+  description = "Command to connect to the AKS cluster"
+  value       = "az aks get-credentials --resource-group ${azurerm_resource_group.aks_rg.name} --name ${azurerm_kubernetes_cluster.aks_cluster.name}"
 }

@@ -1,49 +1,60 @@
-# Define Input Variables
-# 1. Azure Location (CentralUS)
-# 2. Azure Resource Group Name 
-# 3. Azure AKS Environment Name (Dev, QA, Prod)
+# variables.tf - Improved with proper defaults and validation
 
 # Azure Location
 variable "location" {
-  type = string
+  type        = string
   description = "Azure Region where all these resources will be provisioned"
-  default = "Central US"
+  default     = "centralus"
+  
+  validation {
+    condition = can(regex("^[a-z0-9]+$", var.location))
+    error_message = "Location must be a valid Azure region name in lowercase without spaces."
+  }
 }
 
 # Azure Resource Group Name
 variable "resource_group_name" {
-  type = string
-  description = "This variable defines the Resource Group"
-  default = "terraform-aks"
+  type        = string
+  description = "This variable defines the Resource Group base name"
+  default     = "terraform-aks"
+  
+  validation {
+    condition     = length(var.resource_group_name) > 0 && length(var.resource_group_name) <= 64
+    error_message = "Resource group name must be between 1 and 64 characters."
+  }
 }
 
 # Azure AKS Environment Name
 variable "environment" {
-  type = string  
-  description = "This variable defines the Environment"  
-  #default = "dev2"
+  type        = string  
+  description = "This variable defines the Environment (dev, staging, prod)"
+  default     = "dev"
+  
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.environment)
+    error_message = "Environment must be one of: dev, staging, prod."
+  }
 }
 
-
-# AKS Input Variables
-
-# SSH Public Key for Linux VMs
-variable "ssh_public_key" {
-  #default = "~/.ssh/aks-prod-sshkeys-terraform/aksprodsshkey.pub"
-  description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"  
+# Node pool configuration
+variable "system_node_count" {
+  type        = number
+  description = "Number of nodes in the system pool"
+  default     = 1
+  
+  validation {
+    condition     = var.system_node_count >= 1 && var.system_node_count <= 10
+    error_message = "System node count must be between 1 and 10."
+  }
 }
 
-# Windows Admin Username for k8s worker nodes
-variable "windows_admin_username" {
-  type = string
-  default = "azureuser"
-  description = "This variable defines the Windows admin username k8s Worker nodes"  
+variable "worker_node_count" {
+  type        = number
+  description = "Number of nodes in the worker pool"
+  default     = 2
+  
+  validation {
+    condition     = var.worker_node_count >= 1 && var.worker_node_count <= 100
+    error_message = "Worker node count must be between 1 and 100."
+  }
 }
-
-# Windows Admin Password for k8s worker nodes
-variable "windows_admin_password" {
-  type = string
-  default = "StackSimplify@102"
-  description = "This variable defines the Windows admin password k8s Worker nodes"  
-}
-

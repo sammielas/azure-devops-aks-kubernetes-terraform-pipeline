@@ -1,16 +1,13 @@
-# We will define 
-# 1. Terraform Settings Block
-# 1. Required Version Terraform
-# 2. Required Terraform Providers
-# 3. Terraform Remote State Storage with Azure Storage Account (last step of this section)
-# 2. Terraform Provider Block for AzureRM
-# 3. Terraform Resource Block: Define a Random Pet Resource
+# Terraform Configuration - Latest Standards
+# 1. Terraform Settings Block with version constraints and required providers
+# 2. Provider configuration for AzureRM
+# 3. Random pet resource for naming conventions
 
-# 1. Terraform Settings Block
 terraform {
-  # 1. Required Version Terraform
-  required_version = ">= 1.0"
-  # 2. Required Terraform Providers  
+  # Required Terraform version - updated to latest stable
+  required_version = ">= 1.5"
+  
+  # Required providers with updated versions
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -22,34 +19,24 @@ terraform {
     }
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.0"
+      version = "~> 3.6"
     }
   }
-
-# Terraform State Storage to Azure Storage Container
-  backend "azurerm" {
-    #resource_group_name   = "terraform-storage-rg"
-    #storage_account_name  = "terraformstatexlrwdrzs"
-    #container_name        = "tfstatefiles"
-    #key                   = "terraform-custom-vnet.tfstate"
-  }  
 }
 
-
-
-# 2. Terraform Provider Block for AzureRM
+# AzureRM Provider configuration
 provider "azurerm" {
-  subscription_id = "XXXXXXX"
+  # Removed hardcoded subscription_id - use environment variables or Azure CLI authentication
   features {
-    # Updated as part of June2023 to delete "ContainerInsights Resources" when deleting the Resource Group
+    # Resource group configuration for proper cleanup
     resource_group {
       prevent_deletion_if_contains_resources = false
     }
   }
 }
 
-# 3. Terraform Resource Block: Define a Random Pet Resource
+# Random pet resource for generating unique names
 resource "random_pet" "aksrandom" {
-
+  length = 2
+  separator = "-"
 }
-
