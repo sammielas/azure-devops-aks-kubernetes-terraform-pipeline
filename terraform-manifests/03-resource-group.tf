@@ -1,7 +1,9 @@
-# Terraform Resource to Create Azure Resource Group with Input Variables defined in variables.tf
 resource "azurerm_resource_group" "aks_rg" {
-  name = "${var.resource_group_name}-${var.environment}"
-  location = var.location
+  name     = "terraform-aks-dev-${random_pet.aksrandom.id}"  # Add random suffix
+  location = "East US"
+  
+  tags = {
+    Environment = "Development"
+    CreatedBy   = "Terraform"
+  }
 }
-
-
