@@ -28,29 +28,30 @@ stages:
       inputs:
         terraformVersion: 'latest'
     
-    - task: TerraformCLI@0
+    - task: TerraformTask@0
       displayName: Terraform Init
       inputs:
+        provider: 'azurerm'
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
-        backendType: 'azurerm'
         backendServiceArm: 'terraform-aks-azurerm-svc-con'
         backendAzureRmResourceGroupName: 'tfstate-tbc'
         backendAzureRmStorageAccountName: 'tbc9482'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'aks-base.tfstate'
-        allowTelemetryCollection: false
-    
-    - task: TerraformCLI@0
+
+
+    - task: TerraformTask@0
       displayName: Terraform Validate
       inputs:
+        provider: 'azurerm'
         command: 'validate'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
-        allowTelemetryCollection: false
-    
+
+          
     - task: PublishBuildArtifacts@1
       displayName: Publish Build Artifacts
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/terraform-manifests'
         ArtifactName: 'terraform-code'
         publishLocation: 'Container'
+
