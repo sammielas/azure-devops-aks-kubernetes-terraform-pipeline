@@ -70,15 +70,7 @@
   - ID
   - Object ID
  
- ### 09-aks-cluster-linux-user-nodepools.tf
- - We will comment this file and leave it that way.
- - If you need to provision the new nodepool , uncomment all lines except first line and check-in code and new nodepool will be created
- -  Node Lables and Tags will have a environment with respective environment name
 
- ### 10-aks-cluster-windows-user-nodepools.tf
- - We will comment this file and leave it that way.
- - If you need to provision the new nodepool windows, uncomment all lines except first line and check-in code and new nodepool will be created
- -  Node Lables and Tags will have a environment with respective environment name
 
 
 
