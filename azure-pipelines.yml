@@ -28,8 +28,15 @@ stages:
       inputs:
         terraformVersion: '1.5.0'
     
+    # First init without backend to download providers
+    - bash: |
+        terraform init -backend=false -upgrade
+      displayName: 'Download Providers Only'
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+# Then init with backend configuration
     - task: TerraformTask@5
-      displayName: Terraform Init
+      displayName: 'Terraform Init Backend'
       inputs:
         command: 'init'
         backendServiceArm: 'terraform-aks-azurerm-svc-con'
@@ -37,7 +44,7 @@ stages:
         backendAzureRmStorageAccountName: 'tbc9482'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'aks-base.tfstate'
-        commandOptions: '-upgrade' 
+        commandOptions: '-reconfigure'  # No upgrade needed since providers are already downloaded 
     
 
 
