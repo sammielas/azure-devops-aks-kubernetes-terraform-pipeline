@@ -62,9 +62,6 @@
 - AD Group
   - ID
   - Object ID
- 
-
-
 
 
 ## Step-04: Create Github Repository
