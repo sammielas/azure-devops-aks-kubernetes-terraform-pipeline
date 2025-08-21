@@ -37,6 +37,7 @@ stages:
         backendAzureRmStorageAccountName: 'tbc9482'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'aks-base.tfstate'
+        commandOptions: '-upgrade' 
     
 
 
