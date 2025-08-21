@@ -28,7 +28,7 @@ stages:
       inputs:
         terraformVersion: 'latest'
     
-    - task: TerraformTask@0
+    - task: TerraformTask@5
       displayName: Terraform Init
       inputs:
         provider: 'azurerm'
@@ -38,6 +38,7 @@ stages:
         backendAzureRmStorageAccountName: 'tbc9482'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'aks-base.tfstate'
+    
 
 
     - task: TerraformTask@0
